@@ -566,14 +566,14 @@ AST *Parser::assign_stmt(TOKEN *token)
     // Check if the symbol table entry represents a variable
     if (ST_Entry->steType != STE_VAR)
     {
-        reportError("Assignment is only allowed to variables");
+        reportError("Only variables can be assigned values");
         return nullptr;
     }
 
     token = scanner->Scan();
     if (token == nullptr || !matchLexeme(token, Ix_colon_eq))
     {
-        reportError("Expect := ");
+        reportError("Expected ':=' in assignment statement");
         return nullptr;
     }
 
@@ -582,6 +582,7 @@ AST *Parser::assign_stmt(TOKEN *token)
     AST *ast_Exp = parseE(token);
     if (ast_Exp == nullptr)
     {
+        reportError("Failed to parse the right-hand side expression in the assignment statement");
         return nullptr;
     }
 
@@ -592,31 +593,29 @@ AST *Parser::assign_stmt(TOKEN *token)
 
 AST *Parser::call_stmt(TOKEN *token)
 {
-    // Check if the token is nullptr or an identifier
     if (token == nullptr || !matchLexeme(token, lx_identifier))
     {
-        reportError("Expect an Identifier");
-        return nullptr; // Return nullptr if token is not an identifier
+        reportError("Expected an identifier");
+        return nullptr;
     }
-    char *name = token->str_ptr;
 
     // Look up the identifier in the symbol table
+    char *name = token->str_ptr;
     symbol_table_entry *ST_Entry = table->Get_symbol(name);
     if (ST_Entry == nullptr)
     {
-        reportError("Undeclared Variable or Function. ");
-        return nullptr; // Return nullptr if the identifier is not found in the symbol table
+        reportError("Undeclared identifier: " + string(name));
+        return nullptr;
     }
 
     // Check if the symbol table entry represents a routine (function or procedure)
     if (ST_Entry->steType != STE_ROUTINE)
     {
         reportError("You can't call anything other than routines ");
-        return nullptr; // Return nullptr if the entry is not a routine
+        return nullptr;
     }
-    token = scanner->Scan(); // Get the next token
 
-    // Parse the argument list for the function call
+    token = scanner->Scan();
     ast_list *AST_list_x = arg_list(token);
 
     // Create an AST node for the function call statement
@@ -626,34 +625,30 @@ AST *Parser::call_stmt(TOKEN *token)
 
 AST *Parser::if_stmt(TOKEN *token)
 {
-    token = scanner->Scan(); // Get the next token
-
-    // Parse the expression for the 'if' condition
+    token = scanner->Scan();
     AST *ast_Exp = parseE(token);
     if (ast_Exp == nullptr)
     {
-        return nullptr; // Return NULL if expression parsing fails
-    }
-
-    token = scanner->getLastToken(); // Get the last token read
-
-    // Check if 'then' keyword is present after the expression
-    if (!matchLexeme(token, kw_then))
-    {
-        reportError("Expecting then, 'then' keyword is missing"); // Report error if 'then' keyword is missing
+        reportError("Failed to parse the expression");
         return nullptr;
     }
 
-    token = scanner->Scan(); // Get the next token
+    token = scanner->getLastToken();
+    if (!matchLexeme(token, kw_then))
+    {
+        reportError("Missing 'then' keyword in if statement");
+        return nullptr;
+    }
 
-    // Parse the consequent block of the 'if' statement
+    token = scanner->Scan();
     AST *ast_conseq = stmt(token);
     if (ast_conseq == nullptr)
     {
-        return nullptr; // Return NULL if parsing of consequent block fails
+        reportError("Failed to parse the consequent block in the if statement");
+        return nullptr;
     }
 
-    token = scanner->Scan(); // Get the next token
+    token = scanner->Scan();
 
     // Call the function to parse the optional 'else' part of the 'if' statement
     return if_tail(token, ast_Exp, ast_conseq);
@@ -663,39 +658,36 @@ AST *Parser::if_tail(TOKEN *token, AST *ast_Exp, AST *ast_conseq)
 {
     AST *if_ast, *ast_alter;
 
-    // Check if 'fi' keyword is present, indicating the end of the if statement
     if (matchLexeme(token, kw_fi))
     {
-        ast_alter = nullptr; // No alternative block (no 'else' part)
+        ast_alter = nullptr;
     }
-    // Check if 'else' keyword is present, indicating the presence of an alternative block
     else if (matchLexeme(token, kw_else))
     {
-        token = scanner->Scan(); // Get the next token
-        ast_alter = stmt(token); // Parse the alternative block
+        token = scanner->Scan();
+        ast_alter = stmt(token);
         if (ast_alter == nullptr)
         {
-            return nullptr; // Return NULL if parsing of alternative block fails
+            reportError("Failed to parse the alternative block in the if statement");
+            return nullptr;
         }
 
-        token = scanner->Scan(); // Get the next token
-
-        // Check if 'fi' keyword is present after the alternative block
+        token = scanner->Scan();
         if (!matchLexeme(token, kw_fi))
         {
-            reportError("Expecting fi keyword");
+            reportError("Expecting 'fi' keyword to close the if statement");
             return nullptr;
         }
     }
     else
     {
-        reportError("Expecting fi keyword or else keyword");
+        reportError("Expecting 'fi' keyword to close the if statement");
         return nullptr;
     }
 
     // Create an AST node for the if statement, including its condition, consequent block, and alternative block
     if_ast = make_ast_node(ast_if, ast_Exp, ast_conseq, ast_alter);
-    return if_ast; // Return the constructed AST node for the if statement
+    return if_ast;
 }
 
 AST *Parser::while_stmt(TOKEN *token)
