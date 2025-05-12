@@ -1,0 +1,36 @@
+var a: integer;
+var b: float;
+var c: boolean;
+var o: boolean;
+var d: integer;
+var e: boolean;
+var s: string;
+
+## this a one line comment
+
+constant y = 10;
+
+function f (u:float , t:integer ) : float
+begin
+write (b);
+if a > d then
+u := b;
+else
+b := u;
+fi;
+while a <= d do
+a := a * d;
+od;
+return ( u + b );
+end;
+
+procedure p ( g : boolean )
+begin
+d := 3;
+for a := 0 to 5 do
+g := c;
+od;
+read(a);
+g := g or e;
+return (not g);
+end;

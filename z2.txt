@@ -1,0 +1,39 @@
+var x : integer;
+var y : integer;
+var i : integer;
+
+constant MAX = 100;
+
+function factorial (n : integer) : integer
+begin
+var result : integer;
+result := 1;
+for i := 1 to n do
+result := result * i;
+od;
+return(result);
+end;
+
+procedure printNumber(num : integer)
+begin
+write(num);
+end;
+
+function isEven(a : integer) : boolean
+begin
+return(a / 2 * 2 = a);
+end;
+
+begin
+read(x);
+if x > MAX then
+x := MAX;
+fi;
+y := factorial(x);
+if isEven(y) then
+write(y);
+else
+printNumber(y);
+write(x)
+fi;
+end;
