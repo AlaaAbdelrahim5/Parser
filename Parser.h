@@ -74,7 +74,6 @@ private:
     // <expr>
     AST *parseE(TOKEN *token);
     AST *parseEb(AST *E, TOKEN *token);
-    bool checkFollowEb(TOKEN *token);
     AST *parseF(TOKEN *token);
     AST *parseFb(AST *F, TOKEN *token);
     AST *parseG(TOKEN *token);
@@ -83,6 +82,7 @@ private:
     AST *parseHb(AST *H, TOKEN *token);
     AST *parseI(TOKEN *token);
     AST *parseJ(TOKEN *token);
+    bool checkFollowExpr(TOKEN *token);
 
     // <arith_op>
     bool md_op(TOKEN *token); // '*' | '/'
