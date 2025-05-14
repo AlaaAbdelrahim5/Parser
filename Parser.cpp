@@ -649,9 +649,8 @@ AST *Parser::if_stmt(TOKEN *token)
         return nullptr;
     }
 
-    token = scanner->Scan();
-
     // Call the function to parse the optional 'else' part of the 'if' statement
+    token = scanner->Scan();
     return if_tail(token, ast_Exp, ast_conseq);
 }
 
@@ -1091,7 +1090,7 @@ ast_list *Parser::stmt_list(TOKEN *token, ast_list *AST_list_x)
         AST_list_x = addNodeToAstList(ast_stmnt, AST_list_x);
 
         // Update the token based on the type of the parsed statement
-        if (ast_stmnt->type == ast_assign)
+        if (ast_stmnt->type == ast_assign || ast_stmnt->type == ast_call)
         {
             token = scanner->getLastToken();
         }
