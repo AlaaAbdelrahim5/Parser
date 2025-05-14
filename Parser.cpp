@@ -1452,7 +1452,7 @@ AST *Parser::parseJ(TOKEN *token)
 {
     AST *J;
     J = new AST();
-
+    
     if (matchLexeme(token, lx_identifier))
     {
         symbol_table_entry *ST_Entry = table->Get_symbol(token->str_ptr);
@@ -1466,6 +1466,14 @@ AST *Parser::parseJ(TOKEN *token)
         {
             J->type = ast_var;
             J->f.a_var.var = table->Get_symbol(token->str_ptr);
+            token = scanner->Scan();
+            return J;
+        }
+        else if (ST_Entry->steType == STE_CONST)
+        {
+            // Create a constant AST node using the value from the symbol table
+            J->type = ast_integer; // Constants are stored as integers in the symbol table
+            J->f.a_integer.value = ST_Entry->f.constant.value;
             token = scanner->Scan();
             return J;
         }
