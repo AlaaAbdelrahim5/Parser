@@ -24,6 +24,7 @@ function f (u : float, t : integer) : float
 procedure p (u : boolean)
   begin
     var e : boolean
+    e := f (a, b);
     d := 3;
     for a := 0 to 5 do
       u := c

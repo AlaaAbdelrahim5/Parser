@@ -615,7 +615,6 @@ AST *Parser::call_stmt(TOKEN *token)
         reportError("You can't call anything other than routines ");
         return nullptr;
     }
-
     token = scanner->Scan();
     ast_list *AST_list_x = arg_list(token);
 
@@ -1109,8 +1108,6 @@ ast_list *Parser::stmt_list(TOKEN *token, ast_list *AST_list_x)
         token = scanner->Scan();
         return stmt_list(token, AST_list_x);
     }
-
-    return nullptr;
 }
 
 ast_list *Parser::arg_list(TOKEN *token)
@@ -1185,16 +1182,19 @@ ast_list *Parser::args_tail(TOKEN *token, ast_list *AST_list_x)
 
         // Continue parsing remaining arguments
         token = scanner->getLastToken();
-        AST_list_x = args_tail(token, AST_list_x);
-        return AST_list_x;
+        return args_tail(token, AST_list_x);
     }
-    if (matchLexeme(token, lx_rparen))
+    else if (matchLexeme(token, lx_rparen))
     {
         token = scanner->Scan();
         return AST_list_x;
     }
-
-    return nullptr;
+    else
+    {
+        // This happens after we've finished parsing the arguments
+        // It's not necessarily an error - we might just be looking at the next token
+        return AST_list_x;
+    }
 }
 
 AST *Parser::parseE(TOKEN *token)
@@ -1429,7 +1429,12 @@ AST *Parser::parseI(TOKEN *token)
         token = scanner->Scan();
         I->f.a_unary_op.arg = parseI(token);
     }
-    else if (matchLexeme(token, lx_integer) || matchLexeme(token, lx_lparen) || matchLexeme(token, lx_identifier))
+    else if (matchLexeme(token, lx_integer) || matchLexeme(token, lx_lparen) || matchLexeme(token, lx_identifier) || matchLexeme(token, kw_true) || matchLexeme(token, kw_false) || matchLexeme(token, lx_float) || matchLexeme(token, lx_string))
+    {
+        // Parse the factor J
+        I = parseJ(token);
+    }
+    else if (matchLexeme(token, lx_identifier))
     {
         // Parse the factor J
         I = parseJ(token);
@@ -1456,6 +1461,7 @@ AST *Parser::parseJ(TOKEN *token)
             reportError("Undefined Variable: " + string(token->str_ptr));
             return nullptr;
         }
+
         if (ST_Entry->steType == STE_VAR)
         {
             J->type = ast_var;
@@ -1467,7 +1473,6 @@ AST *Parser::parseJ(TOKEN *token)
         {
             // Parse the call statement and return the corresponding AST node
             J = call_stmt(token);
-            token = scanner->Scan();
             return J;
         }
     }
