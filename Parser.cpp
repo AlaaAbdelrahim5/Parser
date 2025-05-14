@@ -649,7 +649,16 @@ AST *Parser::if_stmt(TOKEN *token)
     }
 
     // Call the function to parse the optional 'else' part of the 'if' statement
-    token = scanner->Scan();
+    // Update the token based on the type of the parsed statement
+    if (ast_conseq->type == ast_assign || ast_conseq->type == ast_call)
+    {
+        token = scanner->getLastToken();
+    }
+    else
+    {
+        token = scanner->Scan();
+    }
+
     return if_tail(token, ast_Exp, ast_conseq);
 }
 
@@ -671,7 +680,15 @@ AST *Parser::if_tail(TOKEN *token, AST *ast_Exp, AST *ast_conseq)
             return nullptr;
         }
 
-        token = scanner->Scan();
+        if (ast_alter->type == ast_assign || ast_alter->type == ast_call)
+        {
+            token = scanner->getLastToken();
+        }
+        else
+        {
+            token = scanner->Scan();
+        }
+
         if (!matchLexeme(token, kw_fi))
         {
             reportError("Expecting 'fi' keyword to close the if statement");
@@ -720,7 +737,15 @@ AST *Parser::while_stmt(TOKEN *token)
         return nullptr;
     }
 
-    token = scanner->Scan();
+    if (ast_stmnt->type == ast_assign || ast_stmnt->type == ast_call)
+    {
+        token = scanner->getLastToken();
+    }
+    else
+    {
+        token = scanner->Scan();
+    }
+
     if (token == nullptr || !matchLexeme(token, kw_od))
     {
         reportError("Expected 'od' keyword in while statement");
@@ -774,9 +799,7 @@ AST *Parser::for_stmt(TOKEN *token)
     {
         reportError("Expected 'do' keyword in 'for' loop");
         return nullptr;
-    }
-
-    token = scanner->Scan();
+    }    token = scanner->Scan();
     AST *ast_stmnt = stmt(token);
     if (ast_stmnt == nullptr)
     {
@@ -784,15 +807,21 @@ AST *Parser::for_stmt(TOKEN *token)
         return nullptr;
     }
 
-    token = scanner->Scan();
+    if (ast_stmnt->type == AST_type::ast_assign || ast_stmnt->type == AST_type::ast_call)
+    {
+        token = scanner->getLastToken();
+    }
+    else
+    {
+        token = scanner->Scan();
+    }
+
     if (token == nullptr || !matchLexeme(token, kw_od))
     {
         reportError("Expected 'od' keyword in 'for' loop");
         return nullptr;
-    }
-
-    // Create an AST node for the for loop
-    AST *for_ast = make_ast_node(ast_for, ast_assign->f.a_var.var, ast_assign, ast_Exp, ast_stmnt);
+    }    // Create an AST node for the for loop
+    AST *for_ast = make_ast_node(ast_for, ast_assign->f.a_assign.lhs, ast_assign, ast_Exp, ast_stmnt);
     return for_ast;
 }
 
@@ -1452,7 +1481,7 @@ AST *Parser::parseJ(TOKEN *token)
 {
     AST *J;
     J = new AST();
-    
+
     if (matchLexeme(token, lx_identifier))
     {
         symbol_table_entry *ST_Entry = table->Get_symbol(token->str_ptr);
@@ -1558,6 +1587,9 @@ bool Parser::checkFollowExpr(TOKEN *token)
     case kw_to:
     case lx_semicolon:
     case lx_comma:
+    case kw_fi:
+    case kw_od:
+    case kw_else:
         return true;
     default:
         return false;

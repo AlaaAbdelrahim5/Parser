@@ -28,7 +28,9 @@ procedure p (u : boolean)
     e := 14;
     d := 3;
     for a := 0 to 5 do
-      u := c
+      begin
+        e := a;
+      end
     od;
     u := 5;
     f (u);

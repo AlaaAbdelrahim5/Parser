@@ -16,12 +16,12 @@ var e: boolean;
 var o: boolean;
 write (b);
 if a > d then
-u := b;
+u := b
 else
-b := u;
+b := u
 fi;
 while a <= d do
-a := a * d;
+a := a * d
 od;
 return ( u + b );
 end;
@@ -33,7 +33,9 @@ e := f(a,b);
 e := y;
 d := 3;
 for a := 0 to 5 do
-u := c;
+begin
+e := a;
+end
 od;
 u := 5;
 f(u);
