@@ -1,2 +1,2 @@
-cd "c:\Users\Ala'a\Downloads\Parser"; g++ *.cpp -o parser
-cd "c:\Users\Ala'a\Downloads\Parser"; .\parser
+g++ *.cpp -o parser
+.\parser
