@@ -16,9 +16,8 @@ private:
     unsigned long ElfHash(char *str);
     int case_flag;        // Upper to lower case
     STEntry **entryLists; // Pointer to hash table array of entry lists
-                          // linkedlist of symbol tables to handle scoping
-    STable *next;         // To be used to create a stack of symbol table
-    STable *head;
+    STable *head;         // To be used to create a stack of symbol table
+    STable *next;         // linkedlist of symbol tables to handle scoping
 
 public:
     STable();
@@ -37,6 +36,7 @@ public:
     STEntry *Get_entry(char *key);
     void ClearSymbolTable();
     void PrintSymbolStats();
+
     void enter_scope(); // Inform the symbol table that the parser is entering a new scope
     void exit_scope();  // Inform the symbol table that the parser is leaving a scope.
 };

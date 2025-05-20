@@ -76,7 +76,6 @@ char FileDescriptor::GetChar()
 {
     char c = buffer[char_number];
 
-    // If we reached the end of the line, we need to read the next line from the file
     if (lineSize == char_number)
     {
         if (isEOF())

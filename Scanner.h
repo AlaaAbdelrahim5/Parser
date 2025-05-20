@@ -80,7 +80,7 @@ class TOKEN
 {
 public:
     LEXEME_TYPE type;
-    int value; // can be used instead of the str_ptr for IDs and strings
+    int value; // can be used for identifiers and strings instead of the str_ptr
     float float_value;
     char *str_ptr;
 
