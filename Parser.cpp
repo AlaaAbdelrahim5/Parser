@@ -1463,11 +1463,6 @@ AST *Parser::parseI(TOKEN *token)
         // Parse the factor J
         I = parseJ(token);
     }
-    else if (matchLexeme(token, lx_identifier))
-    {
-        // Parse the factor J
-        I = parseJ(token);
-    }
     else
     {
         reportError("Expecting an identifier, integer, or '(' in the expression");
