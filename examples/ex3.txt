@@ -4,32 +4,42 @@ var c: boolean;
 var o: boolean;
 var d: integer;
 var e: boolean;
-var s: string;
+var u: string;
 
 ## this a one line comment
 
-constant y = 10;
+constant y = (15/3) + 9;
 
 function f (u:float , t:integer ) : float
 begin
+var e: boolean;
+var o: boolean;
 write (b);
 if a > d then
-u := b;
+u := b
 else
-b := u;
+b := u
 fi;
 while a <= d do
-a := a * d;
+a := a * d
 od;
 return ( u + b );
 end;
 
 procedure p ( u : boolean )
 begin
+var e: boolean;
+e := f(a,b);
+e := y;
 d := 3;
 for a := 0 to 5 do
-u := c;
+begin
+e := a;
+end
 od;
+u := 5;
+f(u);
+u := c;
 read(a);
 u := u or e;
 return (not u);

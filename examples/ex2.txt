@@ -23,17 +23,3 @@ function isEven(a : integer) : boolean
 begin
 return(a / 2 * 2 = a);
 end;
-
-begin
-read(x);
-if x > MAX then
-x := MAX;
-fi;
-y := factorial(x);
-if isEven(y) then
-write(y);
-else
-printNumber(y);
-write(x)
-fi;
-end;

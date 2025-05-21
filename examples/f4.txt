@@ -1,0 +1,105 @@
+var yy: integer;
+var y4: integer;
+var y14: integer;
+constant xxxx = 20;
+constant x4x = 20;
+var ay14: integer;
+
+procedure proc1(a1:integer, a2:float, a3:integer)
+begin
+var p1: integer;
+var v2:float;
+var v3:string;
+var i: integer;
+while i + 6 do
+  i := i+1 
+od;
+end;
+
+procedure proc2(a11:integer, a12:float, a13:integer)
+begin
+var p11: integer;
+var v12:integer;
+end ;
+procedure proc3()
+begin
+ var p13: integer;
+ var v23: integer;
+ var d:integer;
+
+ p13 :=  5 ;
+ v23 :=  5 + p13*v23 > p13/5;
+ read(p13);
+ if d < v23+6
+ then
+    begin 
+	   p13:=17;
+	   read(p13);
+	   return(p13);
+	end	   
+ else
+    begin 
+		read(d);
+        d := 2*d+p13;		
+	end
+ fi;
+ write(v23);
+end ;
+
+function addFunc1():integer
+ begin
+	var f1: integer;
+	var f24: float;
+	return (f1*f24);
+	begin
+	   var m1:integer;
+	   read(m1);
+	end;
+ end;
+
+procedure proc4()
+begin
+var p14: integer;
+var v24: float;
+var ki: integer;
+
+ki := ki+1;
+
+for ki := 5  to ki < 56 do
+  ki := 2*ki+1
+od;
+
+while (ki < p14+3) do 
+  begin
+  v24 := v24 + 2*i;
+  ki := ki+1; 
+  end
+od;
+
+return(7);
+end ;
+
+function someFunc2(par1:integer):float
+ begin
+	var ff1: integer;
+	var ff24: float;
+	var z:integer;
+	var n:integer;
+	var m:integer;
+	
+	ff24 := ff1 /6 ;
+	read(ff1);
+    write(ff24);
+	if n < m then ff1:=17 else read(n) fi;
+	
+	for m := ff24  to m < 56 do
+	   begin
+           m := 2*m+1;
+		   read(m);
+		   write(m);
+	   end
+    od;
+	
+	return(ff1+67);
+ end;
+

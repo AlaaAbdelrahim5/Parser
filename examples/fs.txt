@@ -1,0 +1,62 @@
+var yy: integer;
+var y4: integer;
+var y14: integer;
+constant xxxx = 20;
+constant x4x = 20;
+var ay14: integer;
+
+procedure proc1(a1:integer, a2:float, a3:integer)
+begin
+var p1: integer;
+var v2:float;
+var v3:string;
+##var yy:integer;
+var i: integer;
+
+while i + 6 do
+  i := i+1 
+od;
+end;
+procedure proc2(a11:integer, a12:float, a13:integer)
+begin
+var p11: integer;
+var v12:integer;
+p11 := 5+a11;
+end ;
+
+function addFunc1(af1:integer, af2:float):integer
+ begin
+	var f1: integer;
+	var f24: float;
+	return (f1*f24);
+	begin
+	   var m1:integer;
+	   read(m1);
+	end;
+ end;
+ 
+procedure proc4()
+begin
+var p14: integer;
+var v24: float;
+var ki: integer;
+
+##function call
+p14 := addFunc1(p14,v24+5.61) ;
+
+ki := ki+1;
+
+for ki := 5  to ki < 56 do
+  ki := 2*ki+1
+od;
+
+while (ki < p14+3) do 
+  begin
+  var i:integer;
+  v24 := v24 + 2*i;
+  ki := ki+1; 
+  end
+od;
+
+return(7);
+end ;
